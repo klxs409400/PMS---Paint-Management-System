@@ -6,5 +6,12 @@ public enum PaintType
 
     Glossy,
 
-    Matte
+    Matte,
+
+    SemiGloss,
+
+    Gloss,
+
+    WhiteOnWhite
+
 }

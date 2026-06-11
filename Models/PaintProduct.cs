@@ -19,12 +19,15 @@ public class PaintProduct : IBuyable
 
     public decimal Price { get; set; }
 
-    public PaintProduct(string name, PaintType type, PaintSpecification specification, decimal price){
+    public Brand BrandName { get; set; }
+
+    public PaintProduct(string name, PaintType type, PaintSpecification specification, decimal price, Brand brandname){
         Name = name;
         Type = type;
         Specification = specification;
         Price = price;
         TaxRate = 0.1m;
+        BrandName = brandname;
 
     }
 
@@ -37,7 +40,7 @@ public class PaintProduct : IBuyable
     }
 
     public String DisplayInfo(){
-       return  $"The type of paint is {Type}, the Price of paint is {Price}, the Name of PaintProduct is {Name}, the specification of paint is {Specification.DisplaySpecification()}";
+       return  $"The type of paint is {Type}, the Price of paint is {Price}, the Name of PaintProduct is {Name}, the specification of paint is {Specification.DisplaySpecification()}, The brand of the paint is {BrandName}";
     }
 
     public decimal GetMaxDiscount(decimal rate, bool isOverridable){

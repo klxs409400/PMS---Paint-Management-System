@@ -1,4 +1,7 @@
 using System;
+using System.Dynamic;
+using System.Runtime.CompilerServices;
+using System.Xml.XPath;
 
 namespace PaintManagementSystem.Models;
 
@@ -6,21 +9,36 @@ public class Order
 {
     public readonly DateTime CreatedAt;
 
-    public PaintProduct Product { get; set; }
+    public PaintProduct[] Products { get; set; }
 
-    public int Quantity { get; set; }
+    public int[] Quantities { get; set; }
+
+    public int TotalQuantity {get; set;}
 
     public decimal TotalPrice { get; set; }
 
-    public Order(PaintProduct product, int quantity){
-        Product = product;
-        Quantity = quantity;
-        TotalPrice = quantity * product.Price;
+    public Order(PaintProduct[] products, int[] quantities){
+        Products = products;
+        Quantities = quantities;
+        
+        foreach(int quantity in quantities){
+            TotalQuantity += quantity;
+        }
+
+        for(int i = 0; i < Products.Length; i++){
+            TotalPrice += products[i].Price * quantities[i];
+        }
         CreatedAt = DateTime.Now;
     }
 
     public String DisplayOrder(){
-        return $"The product of order is {Product.DisplayInfo()}, the quantity of the product is {Quantity}, the order is created at {CreatedAt}.";
+        string result = "";
+       for(int i =0; i < Products.Length; i++){
+        result += $"The {i} product of order is {Products[i].DisplayInfo()}, the quantity of this product is {Quantities[i]} ";
+       }
+       result += $"The total quantities of the order is {TotalQuantity}.";
+
+       return result;
     }
 
     public String GetTotalPrice(){
