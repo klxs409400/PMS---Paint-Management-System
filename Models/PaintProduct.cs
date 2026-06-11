@@ -36,8 +36,8 @@ public class PaintProduct : IBuyable
         return finalprice2;
     }
 
-    public void DisplayInfo(){
-        System.Console.WriteLine($"The type of paint is {Type}, the Price of paint is {Price}, the Name of PaintProduct is {Name}, the specification of paint is {Specification}");
+    public String DisplayInfo(){
+       return  $"The type of paint is {Type}, the Price of paint is {Price}, the Name of PaintProduct is {Name}, the specification of paint is {Specification.DisplaySpecification()}";
     }
 
     public decimal GetMaxDiscount(decimal rate, bool isOverridable){

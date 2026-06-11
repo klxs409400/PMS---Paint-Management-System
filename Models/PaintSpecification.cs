@@ -20,7 +20,7 @@ public class PaintSpecification
 
     }
     
-    public void DisplaySpecification(){
-        System.Console.WriteLine($"The Color of Paint is {Color}, The Size of Paint is {SizeInLiters} Liters, The type of Paint is {PaintType}");
+    public String DisplaySpecification(){
+        return $"The Color of Paint is {Color}, The Size of Paint is {SizeInLiters} Liters, The type of Paint is {PaintType}";
     }
 }
