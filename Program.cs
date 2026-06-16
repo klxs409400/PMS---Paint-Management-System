@@ -25,7 +25,7 @@ List<PaintProduct> products = new List<PaintProduct> { product1, product2, produ
 // System.Console.WriteLine(product2.DisplayInfo());
 // System.Console.WriteLine(product3.DisplayInfo());
 
-Order order1 = new Order(products, [2,3,4]);
+Order order1 = new Order(products, [2,3,4],1);
 
 // System.Console.WriteLine(order1.DisplayOrder());
 // System.Console.WriteLine(order1.GetTotalPrice());

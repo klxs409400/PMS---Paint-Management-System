@@ -10,6 +10,8 @@ public class Order
 {
     public readonly DateTime CreatedAt;
 
+    public int OrderId { get; set; }
+
     public List<PaintProduct> Products { get; set; }
 
     public int[] Quantities { get; set; }
@@ -18,7 +20,7 @@ public class Order
 
     public decimal TotalPrice { get; private set; }
 
-    public Order(List<PaintProduct> products, int[] quantities){
+    public Order(List<PaintProduct> products, int[] quantities, int Orderid){
         Products = products;
         Quantities = quantities;
         
@@ -30,6 +32,8 @@ public class Order
             TotalPrice += products[i].Price * quantities[i];
         }
         CreatedAt = DateTime.Now;
+
+        OrderId = Orderid;
     }
 
     public void GetMostExpensivePaintProduct(){
@@ -60,9 +64,9 @@ public class Order
     public String DisplayOrder(){
         string result = "";
        for(int i =0; i < Products.Count; i++){
-        result += $"The {i} product of order is {Products[i].DisplayInfo()}, the quantity of this product is {Quantities[i]} ";
+        result += $"The {i} product of order{OrderId} is {Products[i].DisplayInfo()}, the quantity of this product is {Quantities[i]} ";
        }
-       result += $"The total quantities of the order is {TotalQuantity}.";
+       result += $"The total quantities of the order{OrderId} is {TotalQuantity}, and it is created at {CreatedAt}";
 
        return result;
     }
