@@ -9,6 +9,9 @@ Practice/
 # dotenv files
 .env
 
+# Practice folder (local only)
+Practice/
+
 # User-specific files
 *.rsuser
 *.suo
