@@ -1,10 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="PaintStore.API/**" />
+    <Compile Remove="PaintStore.Model/**" />
+    <Content Remove="PaintStore.API/**" />
+    <Content Remove="PaintStore.Model/**" />
+    <None Remove="PaintStore.API/**" />
+    <None Remove="PaintStore.Model/**" />
+  </ItemGroup>
 
 </Project>
