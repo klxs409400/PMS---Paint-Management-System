@@ -1,4 +1,4 @@
-namespace PaintStore.Model;
+namespace PaintStore.Model.Models;
 
 public class PaintStore
 {

@@ -1,4 +1,6 @@
-namespace PaintStore.Model;
+using PaintStore.Model;
+
+namespace PaintStore.Model.Models;
 
 public class PaintSpecification
 {

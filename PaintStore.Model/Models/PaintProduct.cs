@@ -1,4 +1,6 @@
-namespace PaintStore.Model;
+using PaintStore.Model;
+
+namespace PaintStore.Model.Models;
 
 public class PaintProduct : IBuyable
 {
@@ -13,6 +15,8 @@ public class PaintProduct : IBuyable
     public PaintSpecification Specification { get; set; } = null!;
 
     public decimal Price { get; set; }
+
+    public int Stock { get; set; }
 
     public decimal TaxRate { get; set; } = 0.1m;
 

@@ -6,6 +6,9 @@
 # Personal practice files
 Practice/
 
+# Serilog file output
+PaintStore.API/logs/
+
 # dotenv files
 .env
 
