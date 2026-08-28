@@ -81,8 +81,8 @@ namespace PaintStore.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateOrder([FromBody] OrderCreateRequestDto orderCreateRequestDto)
-        {
+        public async Task<IActionResult> CreateOrder([FromBody] OrderCreateRequestDto orderCreateRequestDto) //ActionResult代表的是http的返回值
+        { //当这个方法是异步是，返回值只能说task/void
             _logger.LogInformation("Received request to create order for user {UserId}", orderCreateRequestDto.UserId);
 
             var CreateOrder = new OrderResponseDto();
@@ -94,7 +94,9 @@ namespace PaintStore.API.Controllers
                 paintsOrder.PaintProductId = oitem.PaintProductId;
                 resultCreatePaintOrder.Add(paintsOrder);
             }
-            var returnOrder = _orderService.CreateOrder(resultCreatePaintOrder, orderCreateRequestDto.UserId);
+            var returnOrder = await _orderService.CreateOrder(resultCreatePaintOrder, orderCreateRequestDto.UserId);
+            // 只要是是long processing的操作，都必须是await的，且await后面一定是异步操作/或者说它的返回值一定是异步操作
+            // await 后面必须是一个 "awaitable" 表达式——最常见的就是一个异步方法的调用，它的返回类型是 Task 或 Task<T>
             CreateOrder.CreatedDate = returnOrder.CreatedDate;
             CreateOrder.UserId = returnOrder.UserId;
             CreateOrder.Id = returnOrder.Id;
@@ -112,11 +114,15 @@ namespace PaintStore.API.Controllers
             }
             CreateOrder.PaintsOrders = resultPaintsOrder;
             _logger.LogInformation("Created order with id {Id}", CreateOrder.Id);
+            // Service/Repository 都改成 async Task<T> + await 之后，这里能这样一路 await 传导下去
+            // 方法本身要加 async 修饰符（配合方法体里出现的 await，两者要配套，不然编译报错）
+            // Created() 本身返回的是 IActionResult，但因为整个方法是 async Task<IActionResult>，
+            // 编译器会自动把这个返回值包装成 Task<IActionResult>，不需要手动 Task.FromResult(...)
             return Created($"/api/orders/{CreateOrder.Id}", CreateOrder);
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateOrder(int id, [FromBody] OrderUpdateRequestDto orderUpdateRequestDto)
+        public async Task<ActionResult> UpdateOrder(int id, [FromBody] OrderUpdateRequestDto orderUpdateRequestDto)
         {
             _logger.LogInformation("Received request to update order with id {Id}", id);
 
@@ -128,7 +134,7 @@ namespace PaintStore.API.Controllers
                 UpdatepaintsOrder.Quantity = po.Quantity;
                 resultUpdatePaintOrder.Add(UpdatepaintsOrder);
             }
-            _orderService.UpdateOrder(id, orderUpdateRequestDto.UserId, resultUpdatePaintOrder);
+            await _orderService.UpdateOrder(id, orderUpdateRequestDto.UserId, resultUpdatePaintOrder);
             _logger.LogInformation("Updated order with id {Id}", id);
             return Ok();
         }

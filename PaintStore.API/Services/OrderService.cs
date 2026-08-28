@@ -30,11 +30,11 @@ public class OrderService
         return _orderRepo.GetOrderById(id);
     }
 
-    public Order CreateOrder(List<PaintsOrder> paintsOrders, int userId)
+    public async Task<Order> CreateOrder(List<PaintsOrder> paintsOrders, int userId)
     {
         var order = new Order();
         var newPaintOrder = new List<PaintsOrder>();
-        var user = _userRepo.GetUserById(userId);
+        var user = await _userRepo.GetUserById(userId);
         order.UserId = user.Id;
 
         if (paintsOrders.Count > 0)
@@ -63,15 +63,15 @@ public class OrderService
             throw new Exception("The Order do not include any paint product");
         }
         order.PaintsOrders = newPaintOrder;
-        var createdOrder = _orderRepo.CreateOrder(order);
+        var createdOrder = await _orderRepo.CreateOrder(order);
         _logger.LogInformation("Order {Id} created successfully for user {UserId}", createdOrder.Id, createdOrder.UserId);
         return createdOrder;
     }
 
-    public void UpdateOrder(int orderid, int userId, List<PaintsOrder> paintsOrders)
+    public async Task UpdateOrder(int orderid, int userId, List<PaintsOrder> paintsOrders)
     {
         var currentOrder = _orderRepo.GetOrderById(orderid);
-        var newUser = _userRepo.GetUserById(userId);
+        var newUser = await _userRepo.GetUserById(userId);
         var newPaintOrder = new List<PaintsOrder>();
 
         currentOrder.UserId = userId;

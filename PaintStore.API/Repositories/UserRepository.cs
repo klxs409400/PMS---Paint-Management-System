@@ -1,5 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using PaintStore.API.Database;
 using PaintStore.Model.Models;
@@ -20,9 +21,10 @@ public class UserRepository
         return _Dbcontext.Users.ToList();
     }
 
-    public User GetUserById(int id)
+    public async Task<User> GetUserById(int id)
     {
-        var user = _Dbcontext.Users.FirstOrDefault(p => p.Id == id);
+        var user = await _Dbcontext.Users.FirstOrDefaultAsync(p => p.Id == id);
+        // await 能帮我提取到FirstOrDefaultAsync这个返回值真正的结果--Task<User>,且它有很大概率会开启一个新的thread来跑这一步，不会阻塞我们的程序
         if (user != null)
         {
             return user;
