@@ -37,9 +37,9 @@ namespace PaintStore.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetUserById(int id)
+        public async Task<ActionResult> GetUserById(int id)
         {
-            User getUser = _userService.GetUserById(id);
+            User getUser = await _userService.GetUserById(id);
             var resultUser = new UserResponseDto();
             resultUser.Email = getUser.Email;
             resultUser.Id = getUser.Id;
@@ -65,10 +65,10 @@ namespace PaintStore.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateUser(int id, [FromBody] UserUpdateRequestDto userUpdateRequestDto)
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] UserUpdateRequestDto userUpdateRequestDto)
         {
             _logger.LogInformation("Received request to update user with id {Id}", id);
-            _userService.UpdateUser(id, userUpdateRequestDto.Name, userUpdateRequestDto.Email, userUpdateRequestDto.Phone);
+            await _userService.UpdateUser(id, userUpdateRequestDto.Name, userUpdateRequestDto.Email, userUpdateRequestDto.Phone);
             _logger.LogInformation("Updated user with id {Id}", id);
             return Ok();
         }

@@ -29,7 +29,7 @@ public class OrderRepository
         throw new Exception("The Order id is invalid!");
     }
 
-    public Order CreateOrder(Order order)
+    public async Task<Order> CreateOrder(Order order)
     {
         var newOrder = new Order();
         newOrder.CreatedDate = DateTime.Now;
@@ -37,8 +37,8 @@ public class OrderRepository
         newOrder.UserId = order.UserId;
         newOrder.totalPrice = order.GetTotalPrice();
 
-        _Dbcontext.Add(newOrder);
-        _Dbcontext.SaveChanges();
+        await _Dbcontext.AddAsync(newOrder); //如果不await，就会直接跑下一句话
+        await _Dbcontext.SaveChangesAsync();
         return newOrder;
     }
 

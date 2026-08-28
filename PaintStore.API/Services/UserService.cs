@@ -71,14 +71,14 @@ public class UserService
         return _userRepo.GetAllUsers();
     }
 
-    public User GetUserById(int id)
+    public async Task<User> GetUserById(int id)
     {
-        return _userRepo.GetUserById(id);
+        return await _userRepo.GetUserById(id);
     }
 
-    public void UpdateUser(int id, string name, string email, string phone)
+    public async Task UpdateUser(int id, string name, string email, string phone)
     {
-        var updateuser = _userRepo.GetUserById(id);
+        var updateuser = await _userRepo.GetUserById(id);
         if (!string.IsNullOrEmpty(name))
         {
             updateuser.Name = name;
